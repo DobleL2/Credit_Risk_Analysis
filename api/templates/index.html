@@ -9,35 +9,51 @@
     <style>
         /* Estilos adicionales para simular ficheros */
         body {
-            background-color: #f8f9fa; /* Cambiar color de fondo del body */
+            background-color: #ffffff; /* Cambiar color de fondo del body */
+            background-image: url("analysis.jpeg");
+            background-repeat: repeat;
+            background-position: center;
+            background-size: 800px;
         }
 
         .navbar {
-            background-color: #ffffff; /* Cambiar color de fondo de la barra de navegación */
+            background-color: #d3d7db; /* Cambiar color de fondo de la barra de navegación */
         }
 
         .nav-link, .tab-pane, .btn {
-            background-color: #ffffff; /* Cambiar color de fondo de los botones y del contenido */
+            background-color: #d3d7db; /* Cambiar color de fondo de los botones y del contenido */
             border-radius: 5px;
             padding: 10px;
             border: 2px solid #007bff; /* Cambiar color del borde y grosor */
             box-shadow: none; /* Quitar sombra */
+            font-family: dibot;
         }
 
         .mb-4 {
-            color: #3836c9;
+            color: #095bf1;
             font-size: 550%;
             text-align: center;
-            padding: 0.5px 2px 0.5px 2px;
+            padding: 17px 37px 17px 37px; /* Ajustar el padding para que el título esté completamente dentro del óvalo */
+            font-family: dibot;
+            border: 4px solid #007bff; /* Borde alrededor del texto */
+            border-radius: 50%; /* Hacer que el borde sea redondeado (ovalado) */
+            display: inline-block; /* Evitar que el borde se extienda horizontalmente */
+            background-color: #d3d7db;
         }
+
 
         .btn.btn-outline-primary.btn-lg.w-100 {
             text-align: center;
+            font-family: dibot;
         }
 
         .tab-content {
-            height: 300px;
+            height: 500px;
             overflow-y: auto;
+        }
+
+        .tab-pane {
+            margin: 0; /* Eliminar margen para que el contenido esté más pegado */
         }
        
     </style>
@@ -46,23 +62,20 @@
 
 <!-- Navbar with collapsible menu -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Opciones (posible login)</a>
+    <a class="navbar-brand" href="#">Inicio</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Inicio</a>
+                <a class="nav-link" href="#">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Login</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">End sesión</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Opción 3...</a>
+                <a class="nav-link" href="#">Logout</a>
             </li>
         </ul>
     </div>
@@ -85,7 +98,7 @@
                 <a class="btn btn-outline-primary btn-lg w-100" id="v-pills-tab4" data-toggle="pill" href="#v-pills-content4" role="button" aria-controls="v-pills-content4" aria-selected="false">Make Your Prediction</a>
                 <a class="btn btn-outline-primary btn-lg w-100" id="v-pills-tab5" data-toggle="pill" href="#v-pills-content5" role="button" aria-controls="v-pills-content5" aria-selected="false">Support results</a>
             </div>
-            <div class="tab-content mt-4">
+            <div class="tab-content mt-2"> <!-- Modificado el margen superior -->
                 <div class="tab-pane fade show active" id="v-pills-content1" role="tabpanel" aria-labelledby="v-pills-tab1">
                     <h3>Contenido - About Scoring</h3>
                     <p>Este es el contenido de la primera pestaña.</p>
