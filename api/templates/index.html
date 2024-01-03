@@ -109,7 +109,101 @@
                 </div>
                 <div class="tab-pane fade" id="v-pills-content3" role="tabpanel" aria-labelledby="v-pills-tab3">
                     <h3>Contenido - Form</h3>
-                    <p>Este es el contenido de la tercera pestaña.</p>
+                    <form action="process_form.php" method="POST">
+                        <label for="payment_day">Payment Day:</label>
+                        <input type="number" id="payment_day" name="PAYMENT_DAY" step="1"><br><br>
+
+                        <label for="sex">Sex:</label>
+                        <input type="radio" id="male" name="SEX" value="M">
+                        <label for="male">Male</label>
+                        <input type="radio" id="female" name="SEX" value="F">
+                        <label for="female">Female</label><br><br>
+
+                        <label for="marital_status">Marital Status:</label>
+                        <select id="marital_status" name="MARITAL_STATUS">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                        </select><br><br>
+
+                        <label for="quant_dependants">Quantity of Dependents:</label>
+                        <input type="number" id="quant_dependants" name="QUANT_DEPENDANTS"><br><br>
+
+                        <label for="nationality" style="display: none;">Nationality:</label>
+                        <input type="number" id="nationality" name="NACIONALITY" step="1"><br><br>
+                        
+                        <label for="flag_residencial_phone">FLAG_RESIDENCIAL_PHONE:</label><br>
+                        <input type="radio" id="residencial_phone_yes" name="FLAG_RESIDENCIAL_PHONE" value="Y">
+                        <label for="residencial_phone_yes">Yes</label>
+                        <input type="radio" id="residencial_phone_no" name="FLAG_RESIDENCIAL_PHONE" value="N">
+                        <label for="residencial_phone_no">No</label><br><br>
+
+                        <label for="residence_type">RESIDENCE_TYPE:</label>
+                        <select id="residence_type" name="RESIDENCE_TYPE">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select><br><br>
+
+                        <label for="months_in_residence">MONTHS_IN_RESIDENCE:</label>
+                        <input type="number" id="months_in_residence" name="MONTHS_IN_RESIDENCE" step="1"><br><br>
+
+                        <label for="personal_monthly_income">PERSONAL_MONTHLY_INCOME:</label>
+                        <input type="number" id="personal_monthly_income" name="PERSONAL_MONTHLY_INCOME"><br><br>
+
+                        <label for="other_incomes">OTHER_INCOMES:</label>
+                        <input type="number" id="other_incomes" name="OTHER_INCOMES"><br><br>
+
+                        <label for="has_any_card">HAS_ANY_CARD:</label><br>
+                        <input type="radio" id="has_any_card_yes" name="HAS_ANY_CARD" value="1">
+                        <label for="has_any_card_yes">Yes</label>
+                        <input type="radio" id="has_any_card_no" name="HAS_ANY_CARD" value="0">
+                        <label for="has_any_card_no">No</label><br><br>
+
+                        <label for="quant_banking_accounts">QUANT_BANKING_ACCOUNTS:</label>
+                        <input type="number" id="quant_banking_accounts" name="QUANT_BANKING_ACCOUNTS" step="1"><br><br>
+
+                        <label for="personal_assets_value">PERSONAL_ASSETS_VALUE:</label>
+                        <input type="number" id="personal_assets_value" name="PERSONAL_ASSETS_VALUE"><br><br>
+
+                        <label for="quant_cars">QUANT_CARS:</label>
+                        <input type="number" id="quant_cars" name="QUANT_CARS" step="1"><br><br>
+
+                        <label for="flag_professional_phone">FLAG_PROFESSIONAL_PHONE:</label><br>
+                        <input type="radio" id="flag_professional_phone_yes" name="FLAG_PROFESSIONAL_PHONE" value="Y">
+                        <label for="flag_professional_phone_yes">Yes</label>
+                        <input type="radio" id="flag_professional_phone_no" name="FLAG_PROFESSIONAL_PHONE" value="N">
+                        <label for="flag_professional_phone_no">No</label><br><br>
+
+                        <label for="profession_code">PROFESSION_CODE:</label>
+                        <input type="number" id="profession_code" name="PROFESSION_CODE"><br><br>
+
+                        <label for="occupation_type">OCCUPATION_TYPE:</label>
+                        <select id="occupation_type" name="OCCUPATION_TYPE">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select><br><br>
+
+                        <label for="product">PRODUCT:</label>
+                        <input type="number" id="product" name="PRODUCT" step ="1"><br><br>
+
+                        <label for="age">AGE:</label>
+                        <input type="number" id="age" name="AGE" step="1"><br><br>
+
+                        <label for="residencial_zip_3">RESIDENCIAL_ZIP_3:</label>
+                        <input type="number" id="residencial_zip_3" name="RESIDENCIAL_ZIP_3"><br><br>
+
+                        <input type="submit" value="Submit">
+                    </form>                    
                 </div>
                 <div class="tab-pane fade" id="v-pills-content4" role="tabpanel" aria-labelledby="v-pills-tab4">
                     <h3>Contenido - Make Your Prediction</h3>
