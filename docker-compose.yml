@@ -18,7 +18,7 @@ services:
       - FLASK_ENV=development
     depends_on:
       - redis
-      - model
+      #- model
     volumes:
       - ./feedback:/src/feedback
       - ./uploads:/src/static/uploads
