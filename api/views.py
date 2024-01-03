@@ -1,5 +1,4 @@
 import os
-
 import settings
 import utils
 from flask import (
@@ -14,67 +13,27 @@ from flask import (
 )
 from middleware import model_predict
 
+from model import ml_service as ml
+
+
 router = Blueprint("app_router", __name__, template_folder="templates")
 
 
-@router.route("/", methods=["GET", "POST"])
+@router.route("/")
 def index():
-    """
-    GET: Index endpoint, renders our HTML code.
+    return render_template('index.html')
 
-    POST: Used in our frontend so we can upload and show an image.
-    When it receives an image from the UI, it also calls our ML model to
-    get and display the predictions.
-    """
-    if request.method == "GET":
-        return render_template("index.html")
+# Route to process form data
+@router.route('/process_form',methods=['POST'])
+def process_form():
+    user_input = request.form.get('user_input')
+    
+    # Pass the user input to your machine learning service function
+    processed_data = ml.predict(user_input)
+    
+    return f"Processed data: {processed_data}"
 
-    if request.method == "POST":
-        # No file received, show basic UI
-        if "file" not in request.files:
-            flash("No file part")
-            return redirect(request.url)
-
-        # File received but no filename is provided, show basic UI
-        file = request.files["file"]
-        if file.filename == "":
-            flash("No image selected for uploading")
-            return redirect(request.url)
-
-        # File received and it's an image, we must show it and get predictions
-        if file and utils.allowed_file(file.filename):
-            # In order to correctly display the image in the UI and get model
-            # predictions you should implement the following:
-            #   1. Get an unique file name using utils.get_file_hash() function
-            #   2. Store the image to disk using the new name
-            #   3. Send the file to be processed by the `model` service
-            #   4. Update `context` dict with the corresponding values
-            file_hash = utils.get_file_hash(file)
-            dst_filepath = os.path.join(current_app.config["UPLOAD_FOLDER"], file_hash)
-            if not os.path.exists(dst_filepath):
-                file.save(dst_filepath)
-            flash("Image successfully uploaded and displayed below")
-            prediction, score = model_predict(file_hash)
-            context = {
-                "prediction": prediction,
-                "score": score,
-                "filename": file_hash,
-            }
-            return render_template("index.html", filename=file_hash, context=context)
-        # File received and but it isn't an image
-        else:
-            flash("Allowed image types are -> png, jpg, jpeg, gif")
-            return redirect(request.url)
-
-
-@router.route("/display/<filename>")
-def display_image(filename):
-    """
-    Display uploaded image in our UI.
-    """
-    return redirect(url_for("static", filename="uploads/" + filename), code=301)
-
-
+# TODO Make data validation about the input of the user
 @router.route("/predict", methods=["POST"])
 def predict():
     """
@@ -123,37 +82,3 @@ def predict():
 
     return jsonify(rpse), 400
 
-
-@router.route("/feedback", methods=["GET", "POST"])
-def feedback():
-    """
-    Store feedback from users about wrong predictions on a plain text file.
-
-    Parameters
-    ----------
-    report : request.form
-        Feedback given by the user with the following JSON format:
-            {
-                "filename": str,
-                "prediction": str,
-                "score": float
-            }
-
-        - "filename" corresponds to the image used stored in the uploads
-          folder.
-        - "prediction" is the model predicted class as string reported as
-          incorrect.
-        - "score" model confidence score for the predicted class as float.
-    """
-    report = request.form.get("report")
-
-    # Store the reported data to a file on the corresponding path
-    # already provided in settings.py module (settings.FEEDBACK_FILEPATH)
-    # TODO
-    if report: 
-        file = settings.FEEDBACK_FILEPATH
-        with open(file,"a") as f:
-            f.write(report + '\n')
-
-    # Don't change this line
-    return render_template("index.html")

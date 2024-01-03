@@ -37,16 +37,8 @@ def model_predict(image_name):
     # Assign an unique ID for this job and add it to the queue.
     # We need to assing this ID because we must be able to keep track
     # of this particular job across all the services
-    # TODO
-    job_id = str(uuid4())
 
-    # Create a dict with the job data we will send through Redis having the
-    # following shape:
-    # {
-    #    "id": str,
-    #    "image_name": str,
-    # }
-    # TODO
+    job_id = str(uuid4())
     job_data ={
         "id":job_id,
         "image_name":image_name,
@@ -63,9 +55,6 @@ def model_predict(image_name):
 
     # Loop until we received the response from our ML model
     while True:
-        # Attempt to get model predictions using job_id
-        # Hint: Investigate how can we get a value using a key from Redis
-        # TODO
         output = db.get(job_id)
 
         # Check if the text was correctly processed by our ML model
