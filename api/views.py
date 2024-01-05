@@ -13,72 +13,60 @@ from flask import (
 )
 from middleware import model_predict
 
-from model import ml_service as ml
+from forms import MyForm
+from uuid import uuid4
 
 
 router = Blueprint("app_router", __name__, template_folder="templates")
 
 
-@router.route("/")
+@router.route("/Form",methods=['GET'])
+def index():
+    return render_template('indexC.html')
+
+@router.route("/Home",methods=['GET'])
 def index():
     return render_template('index.html')
 
 # Route to process form data
-@router.route('/process_form',methods=['POST'])
+@router.route('/process_form', methods=['POST','GET'])
 def process_form():
-    user_input = request.form.get('user_input')
-    
-    # Pass the user input to your machine learning service function
-    processed_data = ml.predict(user_input)
-    
-    return f"Processed data: {processed_data}"
+    if request.method == 'POST':
+        # Retrieve data from the form
+        form = MyForm()
 
-# TODO Make data validation about the input of the user
-@router.route("/predict", methods=["POST"])
-def predict():
-    """
-    Endpoint used to get predictions without need to access the UI.
+        form.id_client = request.form['id_client',str(uuid4())]
+        form.payment_day =  request.form['PAYMENT_DAY']
+        form.sex = request.form['SEX']
+        form.marital_status = request.form['MARITAL_STATUS']
+        form.quant_dependants = request.form['QUANT_DEPENDANTS']
+        form.nacionality = request.form['NACIONALITY']
+        form.flag_residencial_phone = request.form['FLAG_RESIDENCIAL_PHONE']
+        form.residence_type = request.form['RESIDENCE_TYPE']
+        form.months_in_residence = request.form['MONTHS_IN_RESIDENCE']
+        form.personal_monthly_income = request.form['PERSONAL_MONTHLY_INCOME']
+        form.other_incomes = request.form['OTHER_INCOMES']
+        form.has_any_card = request.form['HAS_ANY_CARD']
+        form.quant_banking_accounts = request.form['QUANT_BANKING_ACCOUNTS']
+        form.personal_assets_value = request.form['PERSONAL_ASSETS_VALUE']
+        form.quant_cars = request.form['QUANT_CARS']
+        form.flag_professional_phone = request.form['FLAG_PROFESSIONAL_PHONE']
+        form.profession_code = request.form['PROFESSION_CODE']
+        form.occupation_type = request.form['OCCUPATION_TYPE']
+        form.product = request.form['PRODUCT']
+        form.age = request.form['AGE']
+        form.residencial_zip_3 = request.form['RESIDENCIAL_ZIP_3',000000]
 
-    Parameters
-    ----------
-    file : str
-        Input image we want to get predictions from.
+        prediction, score = model_predict(form)
+        
+        context = {
+            'prediction': prediction,
+            "score": score,
+        }
+        
+        # TODO Definir la template para la presentación de los datos 
+        return render_template('index.html', context=context)  # Pass data to success template
+    if request.method == 'GET':
+        return render_template('index.html')
 
-    Returns
-    -------
-    flask.Response
-        JSON response from our API having the following format:
-            {
-                "success": bool,
-                "prediction": str,
-                "score": float,
-            }
-
-        - "success" will be True if the input file is valid and we get a
-          prediction from our ML model.
-        - "prediction" model predicted class as string.
-        - "score" model confidence score for the predicted class as float.
-    """
-    # To correctly implement this endpoint you should:
-    #   1. Check a file was sent and that file is an image
-    #   2. Store the image to disk
-    #   3. Send the file to be processed by the `model` service
-    #   4. Update and return `rpse` dict with the corresponding values
-    # If user sends an invalid request (e.g. no file provided) this endpoint
-    # should return `rpse` dict with default values HTTP 400 Bad Request code
-    rpse = {"success": False, "prediction": None, "score": None}
-
-    if "file" in request.files and utils.allowed_file(request.files["file"].filename):
-        file = request.files["file"]
-        file_hash = utils.get_file_hash(file)
-        dst_filepath = os.path.join(current_app.config["UPLOAD_FOLDER"], file_hash)
-        if not os.path.exists(dst_filepath):
-            file.save(dst_filepath)
-        prediction, score = model_predict(file_hash)
-        rpse["success"] = True
-        rpse["prediction"] = prediction
-        rpse["score"] = score
-        return jsonify(rpse)
-
-    return jsonify(rpse), 400
-
+    return f"Processed data"
