@@ -4,8 +4,8 @@ from uuid import uuid4
 
 import redis
 import settings
+from forms import MyForm
 
-# TODO
 # Connect to Redis and assign to variable `db``
 # Make use of settings.py module to get Redis settings like host, port, etc.
 db = redis.Redis(
@@ -14,16 +14,15 @@ db = redis.Redis(
     db = settings.REDIS_DB_ID
 )
 
-
-def model_predict(image_name):
+def model_predict_from_form(form):
     """
-    Receives an image name and queues the job into Redis.
+    Receives form data and queues the job into Redis.
     Will loop until getting the answer from our ML service.
 
     Parameters
     ----------
-    image_name : str
-        Name for the image uploaded by the user.
+    form : YourForm
+        Form containing user input.
 
     Returns
     -------
@@ -34,31 +33,46 @@ def model_predict(image_name):
     prediction = None
     score = None
 
-    # Assign an unique ID for this job and add it to the queue.
-    # We need to assing this ID because we must be able to keep track
-    # of this particular job across all the services
+    # Collect data from the form
+    user_data = {
+        "id_client": form.id_client.data,
+        "payment_day": form.payment_day.data,
+        "sex": form.sex.data,
+        "marital_status": form.marital_status.data,
+        "quant_dependants": form.quant_dependants.data,
+        "nacionality": form.nacionality.data,
+        "flag_residencial_phone": form.flag_residencial_phone.data,
+        "residence_type": form.residence_type.data,
+        "months_in_residence": form.months_in_residence.data,
+        "personal_monthly_income": form.personal_monthly_income.data,
+        "other_incomes": form.other_incomes.data,
+        "quant_banking_accounts": form.quant_banking_accounts.data,
+        "personal_assets_value": form.personal_assets_value.data,
+        "quant_cars": form.quant_cars.data,
+        "falg_professional_phone": form.falg_professional_phone.data,
+        "profession_code": form.profession_code.data,
+        "occupation_type": form.occupation_type.data,
+        "product": form.product.data,
+        "age": form.age.data,
+        "residencial_zip_3": form.residencial_zip_3.data,
+        "has_any_card": form.has_any_card.data,
+    }
 
+    # Assign an unique ID for this job and add it to the queue.
     job_id = str(uuid4())
-    job_data ={
-        "id":job_id,
-        "image_name":image_name,
+    job_data = {
+        "id": job_id,
+        "user_data": user_data,
     }
 
     # Send the job to the model service using Redis
-    # Hint: Using Redis `lpush()` function should be enough to accomplish this.
-    # TODO
     msg_str = json.dumps(job_data)
-    db.lpush(
-        settings.REDIS_QUEUE,
-        msg_str
-    )
-
+    db.lpush(settings.REDIS_QUEUE, msg_str)
+    
     # Loop until we received the response from our ML model
     while True:
         output = db.get(job_id)
 
-        # Check if the text was correctly processed by our ML model
-        # Don't modify the code below, it should work as expected
         if output is not None:
             output = json.loads(output.decode("utf-8"))
             prediction = output["prediction"]
@@ -67,7 +81,39 @@ def model_predict(image_name):
             db.delete(job_id)
             break
 
-        # Sleep some time waiting for model results
         time.sleep(settings.API_SLEEP)
 
     return prediction, score
+
+def classify_process():
+    """
+    Loop indefinitely asking Redis for new jobs.
+    When a new job arrives, takes it from the Redis queue, uses the loaded ML
+    model to get predictions and stores the results back in Redis using
+    the original job ID so other services can see it was processed and access
+    the results.
+
+    Load form data from the corresponding queue based on the job ID
+    received, then, run our ML model to get predictions.
+    """
+    while True:        
+        queue_name, msg = db.brpop(settings.REDIS_QUEUE)
+        
+        msg = json.loads(msg)
+        
+        # Extract form data
+        form_data = msg['user_data']
+        
+        # Pass form data to your model prediction function
+        class_name, pred_probability = model_predict_from_form(MyForm(data=form_data))
+        
+        result_dictionary = {
+            "prediction": class_name,
+            "score": float(pred_probability)
+        }
+        
+        job_id = msg["id"]
+        
+        db.set(job_id, json.dumps(result_dictionary))
+        
+        time.sleep(settings.SERVER_SLEEP)

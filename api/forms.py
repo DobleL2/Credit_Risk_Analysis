@@ -17,7 +17,7 @@ class MyForm(FlaskForm):
     quant_banking_accounts = IntegerField('Number of Banking Accounts', validators=[DataRequired(), NumberRange(min=0)])
     personal_assets_value = IntegerField('Personal Assets Value', validators=[DataRequired(), NumberRange(min=0)])
     quant_cars = IntegerField('Number of Cars', validators=[DataRequired(), NumberRange(min=0)])
-    falg_professional_phone = BooleanField('Professional Phone Flag')
+    flag_professional_phone = BooleanField('Professional Phone Flag')
     profession_code = StringField('Profession Code', validators=[DataRequired()])
     occupation_type = StringField('Occupation Type', validators=[DataRequired()])
     product = StringField('Product', validators=[DataRequired()])

@@ -5,9 +5,6 @@ import time
 import numpy as np
 import redis
 import settings
-from tensorflow.keras.applications import ResNet50
-from tensorflow.keras.applications.resnet50 import decode_predictions, preprocess_input
-from tensorflow.keras.preprocessing import image
 
 db = redis.Redis(
     host = settings.REDIS_IP,
@@ -15,18 +12,18 @@ db = redis.Redis(
     db = settings.REDIS_DB_ID
 )
 
-# TODO: Marco y JS: Importar el modelo entrenado
-model = ResNet50(include_top=True, weights = "imagenet")
+from ..api.forms import MyForm
 
-def predict(image_name):
+model = ""
+
+def predict_from_form(form):
     """
-    Load image from the corresponding folder based on the image name
-    received, then, run our ML model to get predictions.
+    Run our ML model to get predictions based on the form data.
 
     Parameters
     ----------
-    image_name : str
-        Image filename.
+    form : MyForm
+        Form containing user input.
 
     Returns
     -------
@@ -37,25 +34,24 @@ def predict(image_name):
     class_name = None
     pred_probability = None
 
-    img_path = os.path.join(settings.UPLOAD_FOLDER,image_name)
-    img = image.load_img(img_path,target_size=(224,224)) # Cargando la imagen y cambiando el tamaño
-    
-    # We need to convert the PIL image to a Numpy array before sending it to the model
-    x = image.img_to_array(img) # Valores numericos a un array
-    
-    x_batch = np.expand_dims(x,axis=0)
-    
-    x_batch = preprocess_input(x_batch)
-    
-    preds = model.predict(x_batch)
-    
-    prediction = decode_predictions(preds,top=1)
-    
-    class_name = prediction[0][0][1]
-    pred_probability = round(prediction[0][0][2],4)
+    # Example: You might need to adjust how you extract data from the form fields
+    # For demonstration, let's assume you are processing 'age' and 'sex' fields
+    user_age = form.age.data
+    user_sex = form.sex.data
+
+    # Process the form data as needed for your model
+    # Example: Create dummy features based on the form data
+    features = [user_age, user_sex]  # Adjust this as per your model's requirements
+
+    # Pass features to your ML model for prediction
+    prediction = model.predict(features)  # Replace 'features' with your processed data
+
+    # Process the prediction result (replace this with your actual prediction logic)
+    # Example: Assume the prediction output is a class name and a probability
+    class_name = "Predicted Class"
+    pred_probability = 0.85  # Adjust this with your model's output
 
     return class_name, pred_probability
-
 
 def classify_process():
     """
@@ -65,13 +61,13 @@ def classify_process():
     the original job ID so other services can see it was processed and access
     the results.
 
-    Load image from the corresponding folder based on the image name
+    Load form data from the corresponding queue based on the job ID
     received, then, run our ML model to get predictions.
     """
     while True:
         # Inside this loop you should add the code to:
         #   1. Take a new job from Redis
-        #   2. Run your ML model on the given data
+        #   2. Run your ML model on the given data (form data in this case)
         #   3. Store model prediction in a dict with the following shape:
         #      {
         #         "prediction": str,
@@ -84,26 +80,23 @@ def classify_process():
         #       code with Redis making use of functions `brpop()` and `set()`.
         # TODO
         
-        queue_name, msg = db.brpop(settings.REDIS_QUEU)
+        queue_name, msg = db.brpop(settings.REDIS_QUEUE)
         
         msg = json.loads(msg)
         
-        class_name,pred_probability = predict(msg['image_name'])
+        # Extract form data from the job
+        form_data = msg['user_data']
+        
+        # Predict using the ML model with the form data
+        class_name, pred_probability = predict_from_form(MyForm(data=form_data))
         
         result_dictionary = {
-            "prediction":class_name,
-            "score":float(pred_probability)
+            "prediction": class_name,
+            "score": float(pred_probability)
         }
         
         job_id = msg["id"]
         
-        db.set(job_id,json.dumps(result_dictionary))
+        db.set(job_id, json.dumps(result_dictionary))
         
         time.sleep(settings.SERVER_SLEEP)
-        
-
-
-if __name__ == "__main__":
-    # Now launch process
-    print("Launching ML service...")
-    classify_process()
