@@ -20,6 +20,7 @@ services:
       - redis
       #- model
     volumes:
+      - ./api:/src # Mount the local 'api' directory into the '/src' directory in the container
       - ./feedback:/src/feedback
       - ./uploads:/src/static/uploads
 
@@ -38,4 +39,5 @@ services:
     depends_on:
       - redis
     volumes:
+      - ./model:/src # Mount the local 'model' directory into the '/src' directory in the container
       - ./uploads:/src/uploads
