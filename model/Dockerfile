@@ -1,0 +1,40 @@
+FROM python:3.8.13 as base
+
+ARG UID
+ARG GID
+
+# Install necessary system dependencies
+RUN apt-get update && apt-get install -y \
+    cmake \
+    make \
+ && rm -rf /var/lib/apt/lists/*
+
+# Add a non-root user
+RUN addgroup --gid $GID app
+RUN adduser --disabled-login --geco '' --uid $UID --gid $GID app
+USER app
+
+# Append /home/app/.local/bin/ to PATH variable because
+# gunicorn is installed there.
+ENV PYTHONPATH=$PYTHONPATH:/src/
+ENV PATH=$PATH:/home/app/.local/bin/
+
+ADD requirements.txt .
+RUN pip3 install -r requirements.txt
+
+ENV PYTHONPATH=$PYTHONPATH:/src/
+
+COPY ./ /src/
+
+WORKDIR /src
+
+RUN ["python3", "/src/test.py"]
+
+FROM base as test
+RUN ["pytest", "-v", "/src/tests"]
+
+FROM base as build
+ENTRYPOINT ["python3", "/src/ml_service.py"]
+
+FROM base as prueba
+RUN ["python3", "/src/test.py"]

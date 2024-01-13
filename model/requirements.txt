@@ -1,5 +1,8 @@
-Pillow==9.0.1
 pytest==7.1.1
 redis==4.1.4
-protobuf==3.20.0
-numpy==1.24.4
+lightgbm==2.0.3
+pandas
+numpy
+boto3
+lightgbm
+Pillow
