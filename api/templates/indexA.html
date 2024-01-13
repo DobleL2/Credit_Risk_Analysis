@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Página Web con Bootstrap</title>
+    <!-- Add links to Bootstrap CSS and JS files -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Estilos adicionales para simular ficheros */
+        body {
+            background-color: #ffffff; /* Cambiar color de fondo del body */
+            background-image: url("analysis.jpeg");
+            background-repeat: repeat;
+            background-position: center;
+            background-size: 800px;
+        }
+
+        h3 {
+            margin-bottom: 25px; /* Espacio entre h2 y ul */
+            color: #007bff; /* Color del texto */
+            font-family: 'dibot'; /* Tipo de letra */
+            /*font-size: 24px;  Tamaño de letra */
+            font-weight: bold; /* Negrita */
+            text-transform: uppercase; /* Convertir texto a mayúsculas */
+        }
+
+        h4 {
+            margin-top: 25px;
+            margin-bottom: 25px; /* Espacio entre h2 y ul */
+            color: #007bff; /* Color del texto */
+            font-family: 'dibot'; /* Tipo de letra */
+            /*font-size: 24px;  Tamaño de letra */
+            font-weight: bold; /* Negrita */
+            text-transform: uppercase; /* Convertir texto a mayúsculas */
+        }
+
+        h6 {
+            margin-top: 20px;
+            margin-bottom: 20px; /* Espacio entre h2 y ul */
+            color: #007bff; /* Color del texto */
+            font-family: 'dibot'; /* Tipo de letra */
+            /*font-size: 24px;  Tamaño de letra */
+            font-weight: bold; /* Negrita */
+            text-transform: uppercase; /* Convertir texto a mayúsculas */
+        }
+
+        p {
+            margin-bottom: 1px;
+        }
+
+      
+        .navbar {
+            background-color: #d3d7db; /* Cambiar color de fondo de la barra de navegación */
+        }
+
+        .nav-link, .tab-pane, .btn {
+            background-color: #d3d7db; /* Cambiar color de fondo de los botones y del contenido */
+            border-radius: 5px;
+            padding: 10px;
+            border: 2px solid #007bff; /* Cambiar color del borde y grosor */
+            box-shadow: none; /* Quitar sombra */
+            font-family: dibot;
+        }
+
+        .mb-4 {
+            color: #095bf1;
+            font-size: 550%;
+            text-align: center;
+            padding: 17px 37px 17px 37px; /* Ajustar el padding para que el título esté completamente dentro del óvalo */
+            font-family: dibot;
+            border: 4px solid #007bff; /* Borde alrededor del texto */
+            border-radius: 50%; /* Hacer que el borde sea redondeado (ovalado) */
+            display: inline-block; /* Evitar que el borde se extienda horizontalmente */
+            background-color: #d3d7db;
+        }
+
+
+        .btn.btn-outline-primary.btn-lg.w-100 {
+            text-align: center;
+            font-family: dibot;
+        }
+
+        .tab-content {
+            height: 500px;
+            overflow-y: auto;
+        }
+
+        .tab-pane {
+            margin: 0; /* Eliminar margen para que el contenido esté más pegado */
+        }
+       
+    </style>
+</head>
+<body>
+
+<!-- Navbar with collapsible menu -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Inicio</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Container for the company name -->
+<div class="container text-center mt-4">
+    <h2 class="mb-4">bankscoring.com</h2>
+</div>
+
+<!-- Container for tabs and content using Bootstrap grid -->
+<div class="container">
+    <div class="row">
+        <!-- Tabs and content columns using Bootstrap grid -->
+        <div class="col-md-12">
+            <div class="d-grid gap-2 d-md-flex justify-content-center">
+                <a class="btn btn-outline-primary btn-lg w-100" id="v-pills-tab1" data-toggle="pill" href="#v-pills-content1" role="button" aria-controls="v-pills-content1" aria-selected="true">About Scoring</a>
+                <a class="btn btn-outline-primary btn-lg w-100" id="v-pills-tab2" data-toggle="pill" href="#v-pills-content2" role="button" aria-controls="v-pills-content2" aria-selected="false">Terms</a>
+                <a class="btn btn-outline-primary btn-lg w-100" id="v-pills-tab3" data-toggle="pill" href="#v-pills-content3" role="button" aria-controls="v-pills-content3" aria-selected="false">Form</a>
+                <a class="btn btn-outline-primary btn-lg w-100" id="v-pills-tab4" data-toggle="pill" href="#v-pills-content4" role="button" aria-controls="v-pills-content4" aria-selected="false">Make Your Prediction</a>
+                <a class="btn btn-outline-primary btn-lg w-100" id="v-pills-tab5" data-toggle="pill" href="#v-pills-content5" role="button" aria-controls="v-pills-content5" aria-selected="false">Support results</a>
+            </div>
+            <div class="tab-content mt-2"> <!-- Modificado el margen superior -->
+                <div class="tab-pane fade show active" id="v-pills-content1" role="tabpanel" aria-labelledby="v-pills-tab1">
+                    <h3>Contenido - About bankscoring.com</h3>
+                    <p>bankscoring.com is an innovative credit assessment application tailored for businesses seeking to optimize their credit decisions. Leveraging sophisticated algorithms and data analytics, the app provides a comprehensive evaluation of a customer's creditworthiness, assisting companies in making informed and risk-mitigated lending decisions.</p>
+                    <h4>Key Features</h4>
+                    <h6>Automated Credit Scoring:</h6>
+                    <ul>
+                        <li>
+                            <p>The app employs advanced credit scoring models that factor in a range of financial</p>
+                            <p>data to generate a comprehensive credit score for each customer.</p>
+                        </li>
+                    </ul>
+                    <h6>Real-time Decisioning:</h6>
+                    <ul>
+                        <li>The app provides real-time credit decisions, allowing businesses to quickly respond to customer credit applications and streamline their credit approval processes.</li>
+                    </ul>
+                    <h6>User-Friendly Interface:</h6>
+                    <ul>
+                        <li>The app features an intuitive and user-friendly interface, making it accessible to business professionals with varying levels of financial expertise.</li>
+                    </ul>
+                    <h6>Security and Compliance:</h6>
+                    <ul>
+                        <li>bankscoring.com prioritizes data security and compliance with industry regulations, ensuring that sensitive financial information is handled with the utmost confidentiality.</li>
+                    </ul>
+                    <h4>Benefits:</h4>
+                    <h6>Improved Decision-making:</h6>
+                    <ul>
+                        <li>Businesses can make more accurate and informed credit decisions, reducing the risk of defaults and late payments.</li>
+                    </ul>
+                    <h6>Efficiency:</h6>
+                    <ul>
+                        <li>Streamlined credit approval processes and real-time decisioning lead to increased operational efficiency.</li>
+                    </ul>
+                    <h6>Simplicity:</h6>
+                    <ul>
+                        <li>he simplicity of CreditSimple caters to users looking for a quick credit assessment tool without the complexities associated with comprehensive credit platforms.</li>
+                    </ul>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p>Our mission as bankscoring.com company is to empowers businesses to navigate the complexities of credit assessments with confidence, fostering financial stability and sustainable growth.</p>
+                </div>
+                <div class="tab-pane fade" id="v-pills-content2" role="tabpanel" aria-labelledby="v-pills-tab2">
+                    <h3>Contenido - Terms</h3>
+                    <p>Este es el contenido de la segunda pestaña.</p>
+                </div>
+                <div class="tab-pane fade" id="v-pills-content3" role="tabpanel" aria-labelledby="v-pills-tab3">
+                    <h3>Contenido - Form</h3>
+                    <form action="{{ url_for('app_router.process_form') }}" method="POST">
+                        <label for="payment_day">Payment Day:</label>
+                        <input type="number" id="payment_day" name="PAYMENT_DAY" step="1"><br><br>
+
+                        <label for="sex">Sex:</label>
+                        <input type="radio" id="male" name="SEX" value="M">
+                        <label for="male">Male</label>
+                        <input type="radio" id="female" name="SEX" value="F">
+                        <label for="female">Female</label><br><br>
+
+                        <label for="marital_status">Marital Status:</label>
+                        <select id="marital_status" name="MARITAL_STATUS">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                        </select><br><br>
+
+                        <label for="quant_dependants">Quantity of Dependents:</label>
+                        <input type="number" id="quant_dependants" name="QUANT_DEPENDANTS"><br><br>
+
+                        <label for="nationality" style="display: none;">Nationality:</label>
+                        <input type="number" id="nationality" name="NACIONALITY" step="1"><br><br>
+                        
+                        <label for="flag_residencial_phone">FLAG_RESIDENCIAL_PHONE:</label><br>
+                        <input type="radio" id="residencial_phone_yes" name="FLAG_RESIDENCIAL_PHONE" value="Y">
+                        <label for="residencial_phone_yes">Yes</label>
+                        <input type="radio" id="residencial_phone_no" name="FLAG_RESIDENCIAL_PHONE" value="N">
+                        <label for="residencial_phone_no">No</label><br><br>
+
+                        <label for="residence_type">RESIDENCE_TYPE:</label>
+                        <select id="residence_type" name="RESIDENCE_TYPE">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select><br><br>
+
+                        <label for="months_in_residence">MONTHS_IN_RESIDENCE:</label>
+                        <input type="number" id="months_in_residence" name="MONTHS_IN_RESIDENCE" step="1"><br><br>
+
+                        <label for="personal_monthly_income">PERSONAL_MONTHLY_INCOME:</label>
+                        <input type="number" id="personal_monthly_income" name="PERSONAL_MONTHLY_INCOME"><br><br>
+
+                        <label for="other_incomes">OTHER_INCOMES:</label>
+                        <input type="number" id="other_incomes" name="OTHER_INCOMES"><br><br>
+
+                        <label for="has_any_card">HAS_ANY_CARD:</label><br>
+                        <input type="radio" id="has_any_card_yes" name="HAS_ANY_CARD" value="1">
+                        <label for="has_any_card_yes">Yes</label>
+                        <input type="radio" id="has_any_card_no" name="HAS_ANY_CARD" value="0">
+                        <label for="has_any_card_no">No</label><br><br>
+
+                        <label for="quant_banking_accounts">QUANT_BANKING_ACCOUNTS:</label>
+                        <input type="number" id="quant_banking_accounts" name="QUANT_BANKING_ACCOUNTS" step="1"><br><br>
+
+                        <label for="personal_assets_value">PERSONAL_ASSETS_VALUE:</label>
+                        <input type="number" id="personal_assets_value" name="PERSONAL_ASSETS_VALUE"><br><br>
+
+                        <label for="quant_cars">QUANT_CARS:</label>
+                        <input type="number" id="quant_cars" name="QUANT_CARS" step="1"><br><br>
+
+                        <label for="flag_professional_phone">FLAG_PROFESSIONAL_PHONE:</label><br>
+                        <input type="radio" id="flag_professional_phone_yes" name="FLAG_PROFESSIONAL_PHONE" value="Y">
+                        <label for="flag_professional_phone_yes">Yes</label>
+                        <input type="radio" id="flag_professional_phone_no" name="FLAG_PROFESSIONAL_PHONE" value="N">
+                        <label for="flag_professional_phone_no">No</label><br><br>
+
+                        <label for="profession_code">PROFESSION_CODE:</label>
+                        <input type="number" id="profession_code" name="PROFESSION_CODE"><br><br>
+
+                        <label for="occupation_type">OCCUPATION_TYPE:</label>
+                        <select id="occupation_type" name="OCCUPATION_TYPE">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select><br><br>
+
+                        <label for="product">PRODUCT:</label>
+                        <input type="number" id="product" name="PRODUCT" step ="1"><br><br>
+
+                        <label for="age">AGE:</label>
+                        <input type="number" id="age" name="AGE" step="1"><br><br>
+
+                        <label for="residencial_zip_3">RESIDENCIAL_ZIP_3:</label>
+                        <input type="number" id="residencial_zip_3" name="RESIDENCIAL_ZIP_3"><br><br>
+
+                        <input type="submit" value="Submit">
+                    </form>                    
+                </div>
+                <div class="tab-pane fade" id="v-pills-content4" role="tabpanel" aria-labelledby="v-pills-tab4">
+                    <h3>Contenido - Make Your Prediction</h3>
+                    <p>Este es el contenido de la cuarta pestaña.</p>
+                </div>
+                <div class="tab-pane fade" id="v-pills-content5" role="tabpanel" aria-labelledby="v-pills-tab5">
+                    <h3>Contenido - Support Results</h3>
+                    <p>Este es el contenido de la quinta pestaña.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add links to Bootstrap JS and jQuery files -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // Actualizar pestaña activa al hacer clic en un botón
+    $('.btn').on('click', function() {
+        $('.tab-pane').removeClass('show active');
+        $($(this).attr('href')).addClass('show active');
+        $('.btn').removeClass('active');
+        $(this).addClass('active');
+    });
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

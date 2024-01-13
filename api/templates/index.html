@@ -10,7 +10,7 @@
         /* Estilos adicionales para simular ficheros */
         body {
             background-color: #ffffff; /* Cambiar color de fondo del body */
-            background-image: url("3409297.jpg");
+            background-image: url("/static/images/3409297.jpg");
             background-repeat: no-repeat;
             background-position: center;
             background-size: 800px;
@@ -221,7 +221,7 @@
                     <div class="container text-center custom-content-header" style="color: #82fba6;">
                         <h3>Process - Form</h3>
                     </div>    
-                    <form action="process_form.php" method="POST">
+                    <form action="{{ url_for('app_router.process_form') }}" method="POST">
                         <div class = "form-group">
                             <label for="payment_day">Payment Day:</label>
                             <input type="number" id="payment_day" name="PAYMENT_DAY" min="1" step="1" pattern="\d*" oninput="this.value = this.value.replace(/\D/, '')"><br><br>
@@ -374,20 +374,80 @@
                         <input type="submit" class="btn btn-primary" value="Submit">
                     </form>                    
                 </div>
-                <<div class="tab-pane fade" id="v-pills-content4" role="tabpanel" aria-labelledby="v-pills-tab4">
+                <div class="tab-pane fade" id="v-pills-content4" role="tabpanel" aria-labelledby="v-pills-tab4">
                     <div class="container text-center custom-content-header" style="color: #82fba6;">
                         <h3>Make Your Prediction</h3>
                     </div>    
-                    <p>Este es el contenido de la cuarta pestaña.</p>
-                    <div class="row">
-                        <!-- Lado izquierdo con el nuevo output de Score -->
-                        <div class="col-md-6">
+
+                    
+                        {% if context %}
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h4>Form Data:</h4>
+                                <ul>
+                                    <li>SEX: {{ context.data.SEX }}</li>
+                                    <li>PAYMENT_DAY: {{context.data.PAYMENT_DAY}}</li>
+                                    <li>MARITAL_STATUS: {{context.data.MARITAL_STATUS}}</li>
+                                    <li>QUANT_DEPENDANTS: {{context.data.QUANT_DEPENDANTS}}</li>
+                                    <li>NACIONALITY: {{context.data.NACIONALITY}}</li>
+                                    <li>FLAG_RESIDENCIAL_PHONE: {{context.data.FLAG_RESIDENCIAL_PHONE}}</li>
+                                    <li>RESIDENCE_TYPE: {{context.data.RESIDENCE_TYPE}}</li>
+                                    <li>MONTHS_IN_RESIDENCE: {{context.data.MONTHS_IN_RESIDENCE}}</li>
+                                    <li>PERSONAL_MONTHLY_INCOME: {{context.data.PERSONAL_MONTHLY_INCOME}}</li>
+                                    <li>OTHER_INCOMES: {{context.data.OTHER_INCOMES}}</li>
+                                    <li>HAS_ANY_CARD: {{context.data.HAS_ANY_CARD}}</li>
+                                    <li>QUANT_BANKING_ACCOUNTS: {{context.data.QUANT_BANKING_ACCOUNTS}}</li>
+                                    <li>PERSONAL_ASSETS_VALUE: {{context.data.PERSONAL_ASSETS_VALUE}}</li>
+                                    <li>QUANT_CARS: {{context.data.QUANT_CARS}}</li>
+                                    <li>FLAG_PROFESSIONAL_PHONE: {{context.data.FLAG_PROFESSIONAL_PHONE}}</li>
+                                    <li>PROFESSION_CODE: {{context.data.PROFESSION_CODE}}</li>
+                                    <li>OCCUPATION_TYPE: {{context.data.OCCUPATION_TYPE}}</li>
+                                    <li>PRODUCT: {{context.data.PRODUCT}}</li>
+                                    <li>AGE: {{context.data.AGE}}</li>
+                                    <li>RESIDENCIAL_ZIP_3: {{context.data.RESIDENCIAL_ZIP_3}}</li>
+                                    <!-- Add other form fields as needed -->
+                                </ul>        
+                            </div>
+                                                <!-- Lado izquierdo con el nuevo output de Score -->
+                            <div class="col-md-4">
+                                <h4>Score</h4>
+                                <div id="score-output"> {{ context.score }}</div>
+                                <p>Prediction: {{ context.prediction }}</p>
+                            </div>
+                                                    <!-- Lado derecho con los campos existentes -->
+                            <div class="col-md-4">
+                                <h4>Statistics</h4>
+                                <div class="table-box">
+                                    <!-- La tabla que mencionaste -->
+                                    <div class="table">
+                                        <div class="table-row">
+                                            <div class="table-cell">Level</div>
+                                            <div class="table-cell" id="level-output"> 0 </div>
+                                        </div>
+                                        <div class="table-row">
+                                            <div class="table-cell">Default Probability</div>
+                                            <div class="table-cell" id="default-probability-output"> <!-- Aquí irá el output de la probabilidad de incumplimiento --> </div>
+                                        </div>
+                                        <div class="table-row">
+                                            <div class="table-cell">Loan Amount</div>
+                                            <div class="table-cell" id="loan-amount-output"> <!-- Aquí irá el output del monto del préstamo --> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <p>Ingresar la data en el formulario correspondiente.</p>
+                        <div class="row">
+                            
+                                                    <!-- Lado izquierdo con el nuevo output de Score -->
+                        <div class="col-md-5">
                             <h4>Score</h4>
                             <div id="score-output">0</div>
                         </div>
                 
                         <!-- Lado derecho con los campos existentes -->
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <h4>Statistics</h4>
                             <div class="table-box">
                                 <!-- La tabla que mencionaste -->
@@ -408,6 +468,9 @@
                             </div>
                         </div>
                     </div>
+                        {% endif %}
+
+
                 </div>
                 <div class="tab-pane fade" id="v-pills-content5" role="tabpanel" aria-labelledby="v-pills-tab5">
                     <div class="container text-center custom-content-header" style="color: #82fba6">
@@ -432,6 +495,17 @@
         $($(this).attr('href')).addClass('show active');
         $('.btn').removeClass('active');
         $(this).addClass('active');
+    });
+</script>
+
+<!-- JavaScript to switch to the desired tab -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get the target tab ID from Flask
+        var targetTabId = '{{ target_tab_id }}';
+
+        // Select the tab and trigger a click event
+        $('#v-pills-tab' + targetTabId).tab('show');
     });
 </script>
 
