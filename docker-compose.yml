@@ -16,16 +16,22 @@ services:
       - FLASK_APP=app
       - FLASK_DEBUG=1
       - FLASK_ENV=development
+      - WORKER_TIMEOUT=120
     depends_on:
       - redis
-      #- model
+      - model
+
     volumes:
       - ./api:/src # Mount the local 'api' directory into the '/src' directory in the container
       - ./feedback:/src/feedback
       - ./uploads:/src/static/uploads
+    networks:
+      - my_network  # Connect this service to the custom network
 
   redis:
     image: redis:6.2.6
+    networks:
+      - my_network  # Connect this service to the custom network
 
   model:
     user: ${UID}:${GID}
@@ -41,3 +47,9 @@ services:
     volumes:
       - ./model:/src # Mount the local 'model' directory into the '/src' directory in the container
       - ./uploads:/src/uploads
+    networks:
+      - my_network  # Connect this service to the custom network
+
+networks:
+  my_network:
+    driver: bridge

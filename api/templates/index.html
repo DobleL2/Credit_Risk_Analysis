@@ -122,7 +122,18 @@
             font-family: Arial, Helvetica, sans-serif;
             padding: 2px;
         }
+        .team-member {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
              
     </style>
 </head>
@@ -162,6 +173,7 @@
                 <a class="btn btn-outline-primary btn-lg w-100" id="v-pills-tab3" data-toggle="pill" href="#v-pills-content3" role="button" aria-controls="v-pills-content3" aria-selected="false">Form</a>
                 <a class="btn btn-outline-primary btn-lg w-100" id="v-pills-tab4" data-toggle="pill" href="#v-pills-content4" role="button" aria-controls="v-pills-content4" aria-selected="false">Make Your Prediction</a>
                 <a class="btn btn-outline-primary btn-lg w-100" id="v-pills-tab5" data-toggle="pill" href="#v-pills-content5" role="button" aria-controls="v-pills-content5" aria-selected="false">Support results</a>
+                <a class="btn btn-outline-primary btn-lg w-100" id="v-pills-tab6" data-toggle="pill" href="#v-pills-content6" role="button" aria-controls="v-pills-content6" aria-selected="false">Out Team</a>
             </div>
             <div class="tab-content mt-2"> <!-- Modificado el margen superior -->
                 <div class="tab-pane fade show active" id="v-pills-content1" role="tabpanel" aria-labelledby="v-pills-tab1">
@@ -511,6 +523,55 @@
                     </div>    
                     <p>Este es el contenido de la quinta pestaña.</p>
                 </div>
+                <div class="tab-pane fade" id="v-pills-content6" role="tabpanel" aria-labelledby="v-pills-tab6">
+                    <div class="container text-center custom-content-header" style="color: #82fba6">
+                        <h3>Out Team</h3>
+                    </div>    
+                    <div class="container mt-5">
+                        <div class="row">
+                            <!-- Team Member 1 -->
+                            <div class="col-md-4 team-member">
+                                <img src="/static/images/blank-profile-circle.png" alt="Team Member 1">
+                                <h3>Matías</h3>
+                                <!-- <h3><a href="https://www.linkedin.com/in/johndoe/" target="_blank">John Doe</a></h3> -->
+                                <p>Position: Developer</p>
+                                <p>Email: john@example.com</p>
+                            </div>
+                
+                            <!-- Team Member 2 -->
+                            <div class="col-md-4 team-member">
+                                <img src="/static/images/blank-profile-circle.png" alt="Team Member 2">
+                                <h3>Marco</h3>
+                                <p>Position: Creation of the model</p>
+                                <p>Email: jane@example.com</p>
+                            </div>
+                
+                            <!-- Team Member 3 -->
+                            <div class="col-md-4 team-member">
+                                <img src="/static/images/blank-profile-circle.png" alt="Team Member 3">
+                                <h3>Luis</h3>
+                                <p>Position: Manager</p>
+                                <p>Email: bob@example.com</p>
+                            </div>
+                
+                            <!-- Team Member 4 -->
+                            <div class="col-md-4 team-member">
+                                <img src="/static/images/blank-profile-circle.png" alt="Team Member 4">
+                                <h3>Camilo</h3>
+                                <p>Position: Marketing</p>
+                                <p>Email: alice@example.com</p>
+                            </div>
+                
+                            <!-- Team Member 5 -->
+                            <div class="col-md-4 team-member">
+                                <img src="/static/images/blank-profile-circle.png" alt="Team Member 5">
+                                <h3>Joseph</h3>
+                                <p>Position: Analyst</p>
+                                <p>Email: chris@example.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -541,6 +602,8 @@
         $('#v-pills-tab' + targetTabId).tab('show');
     });
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

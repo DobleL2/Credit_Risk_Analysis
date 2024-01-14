@@ -22,4 +22,4 @@ REDIS_DB_ID = 0
 REDIS_IP = os.getenv("REDIS_IP", "redis")
 # Sleep parameters which manages the
 # interval between requests to our redis queue
-API_SLEEP = 0.05
+API_SLEEP = 5.05

@@ -6,3 +6,4 @@ numpy
 boto3
 lightgbm
 Pillow
+cloudpickle==3.0.0

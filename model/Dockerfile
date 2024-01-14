@@ -28,13 +28,9 @@ COPY ./ /src/
 
 WORKDIR /src
 
-RUN ["python3", "/src/test.py"]
-
 FROM base as test
 RUN ["pytest", "-v", "/src/tests"]
 
 FROM base as build
 ENTRYPOINT ["python3", "/src/ml_service.py"]
 
-FROM base as prueba
-RUN ["python3", "/src/test.py"]

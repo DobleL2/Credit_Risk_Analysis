@@ -10,6 +10,7 @@ import lightgbm as lgb
 import pandas as pd
 import zipfile
 from pathlib import Path
+import cloudpickle
 
 # Preprocess
 from sklearn.pipeline import Pipeline
@@ -48,45 +49,34 @@ model_p = lgb.LGBMClassifier(
     subsample_freq=0
 )
 
-
-
 def predict(random_clients_df):
-    class_name = 1
-    pred_probability = 0.5
+    try:            
+        # Load the saved pipeline and model
+        with open('/src/pipeline_train.pkl', 'rb') as pipeline_file:
+            loaded_pipeline = cloudpickle.load(pipeline_file)
+
+        with open('/src/model_p.pkl', 'rb') as model_file:
+            loaded_model = cloudpickle.load(model_file)
+
+        # Transform the new data using the loaded pipeline
+        value_test = loaded_pipeline.transform(random_clients_df)
+
+        # Make predictions
+        prediction = loaded_model.predict(value_test)
+        print("Predicted value for new data:", prediction)
+
+        prediction_proba = loaded_model.predict_proba(value_test)
+        positive_class_proba = prediction_proba[:, 1]
+        print("Probability of the positive class for new data:", positive_class_proba)
+
+        class_name = prediction
+        pred_probability = float(np.max(prediction_proba))
+        
+    except Exception as e:
+        print(f"Error processing image: {e}")
     
     return class_name, pred_probability
 
-# In model_predict_from_form
-def model_predict_from_form(form):
-    # Extract values from form fields
-    features = {
-        "id_client": form.id_client,
-        "payment_day": form.payment_day,
-        "sex": form.sex,
-        "marital_status": form.marital_status,
-        "quant_dependants": form.quant_dependants,
-        "nacionality": form.nacionality,
-        "flag_residencial_phone": form.flag_residencial_phone,
-        "residence_type": form.residence_type,
-        "months_in_residence": form.months_in_residence,
-        "personal_monthly_income": form.personal_monthly_income,
-        "other_incomes": form.other_incomes,
-        "has_any_card": form.has_any_card,
-        "quant_banking_accounts": form.quant_banking_accounts,
-        "personal_assets_value": form.personal_assets_value,
-        "quant_cars": form.quant_cars,
-        "flag_professional_phone": form.flag_professional_phone,
-        "profession_code": form.profession_code,
-        "occupation_type": form.occupation_type,
-        "product": form.product,
-        "age": form.age,
-        "residencial_zip_3": form.residencial_zip_3,
-    }
-
-    # Call the function that uses these features for prediction
-    prediction, score = 0,0.5#make_prediction(features)
-
-    return prediction, score
 
 def classify_process():
     while True:
@@ -95,7 +85,7 @@ def classify_process():
             mensaje_json = mensaje.decode("utf8")
             data = json.loads(mensaje_json)
             
-            class_name, pred_probability = predict(data["image_name"])
+            class_name, pred_probability = predict(data["user_data"])
 
             prediction_result = {
                 "prediction": class_name,
