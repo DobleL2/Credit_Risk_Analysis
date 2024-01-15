@@ -1,6 +1,7 @@
 import os
 import settings
-import utils
+import pandas as pd
+
 from flask import (
     Blueprint,
     current_app,
@@ -13,9 +14,11 @@ from flask import (
 )
 from middleware import model_predict_from_form
 
-from forms import MyForm
+
 from uuid import uuid4
 import logging
+import joblib
+from joblib import dump,load
 
 
 router = Blueprint("app_router", __name__, template_folder="templates")
@@ -35,7 +38,7 @@ def process_form():
                 'QUANT_BANKING_ACCOUNTS': [0.22551415109553608], 'PERSONAL_ASSETS_VALUE': [8712.210598266734], 'QUANT_CARS': [1.3497474993388459], 'FLAG_PROFESSIONAL_PHONE': [1],
                 'PROFESSION_CODE': [5.172599117336276], 'OCCUPATION_TYPE': [3.7989584602272704], 'PRODUCT': [1.4676470986579082], 'AGE': [36.037719317278004], 'RESIDENCIAL_ZIP_3': [250.58099041358662], 'HAS_ANY_CARD': [0]}
         
-        SEX = request.form.get('SEX','M')
+        SEX = request.form.get('SEX',['M'])
         PAYMENT_DAY =  request.form.get('PAYMENT_DAY',[14])
         MARITAL_STATUS = request.form.get('MARITAL_STATUS',[0.32316679991959296])
         QUANT_DEPENDANTS = request.form.get('QUANT_DEPENDANTS',[1.9077678811444132])
@@ -78,8 +81,36 @@ def process_form():
                 'AGE' : AGE, 
                 'RESIDENCIAL_ZIP_3' : RESIDENCIAL_ZIP_3,       
         }
-        # TODO (Marco: Add Ml_Service)
-        prediction, score = model_predict_from_form(data)
+        
+        # TODO (Marco: Add Ml_Service) Test and define preprocessing
+        
+        test = {'SEX': {0: 1.0},
+                'PAYMENT_DAY': {0: 0.1678336140240951},
+                'MARITAL_STATUS': {0: -1.3836195852815556},
+                'QUANT_DEPENDANTS': {0: 1.0699798986808822},
+                'NACIONALITY': {0: -3.6819012378973213},
+                'FLAG_RESIDENCIAL_PHONE': {0: 0.4424553317066655},
+                'RESIDENCE_TYPE': {0: 0.5789848184067318},
+                'MONTHS_IN_RESIDENCE': {0: 3.8652296397487595},
+                'PERSONAL_MONTHLY_INCOME': {0: 123.375260485318},
+                'OTHER_INCOMES': {0: 0.28408418132750435},
+                'QUANT_BANKING_ACCOUNTS': {0: -0.27650491818687867},
+                'PERSONAL_ASSETS_VALUE': {0: 0.13422886682439855},
+                'QUANT_CARS': {0: 2.1476343323409104},
+                'FLAG_PROFESSIONAL_PHONE': {0: 1.641694685238739},
+                'PROFESSION_CODE': {0: -1.8845897028550707},
+                'OCCUPATION_TYPE': {0: 0.8344895932385018},
+                'PRODUCT': {0: 0.1914533582934268},
+                'AGE': {0: -0.4829082452779595},
+                'RESIDENCIAL_ZIP_3': {0: -1.4689276009237735},
+                'HAS_ANY_CARD': {0: -0.442212577389577}}
+        
+        test = pd.DataFrame(test)
+        
+        loaded_model = load('/src/joblib_model.joblib')
+        score = loaded_model.predict_proba(test)[0]
+        prediction = loaded_model.predict(test)
+        #prediction, score = model_predict_from_form(data)
         
         context = {
             'prediction': prediction,

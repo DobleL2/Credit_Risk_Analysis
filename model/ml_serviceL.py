@@ -13,14 +13,16 @@ from pathlib import Path
 import cloudpickle
 from utils import *
 import logging
+import pickle
+import joblib
 
 # Preprocess
-from sklearn.pipeline import Pipeline
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OrdinalEncoder, OneHotEncoder, StandardScaler
-from sklearn.impute import SimpleImputer
-from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.model_selection import train_test_split
+#from sklearn.pipeline import Pipeline
+#from sklearn.compose import ColumnTransformer
+#from sklearn.preprocessing import OrdinalEncoder, OneHotEncoder, StandardScaler
+#from sklearn.impute import SimpleImputer
+#from sklearn.base import BaseEstimator, TransformerMixin
+#from sklearn.model_selection import train_test_split
 
 db = redis.Redis(
     host=settings.REDIS_IP, port=settings.REDIS_PORT, db=settings.REDIS_DB_ID
@@ -51,7 +53,46 @@ model_p = lgb.LGBMClassifier(
 def predict(random_clients_df):
     class_name=0
     pred_probability =0.1
+    
+    test = {'SEX': {0: 1.0},
+ 'PAYMENT_DAY': {0: 0.1678336140240951},
+ 'MARITAL_STATUS': {0: -1.3836195852815556},
+ 'QUANT_DEPENDANTS': {0: 1.0699798986808822},
+ 'NACIONALITY': {0: -3.6819012378973213},
+ 'FLAG_RESIDENCIAL_PHONE': {0: 0.4424553317066655},
+ 'RESIDENCE_TYPE': {0: 0.5789848184067318},
+ 'MONTHS_IN_RESIDENCE': {0: 3.8652296397487595},
+ 'PERSONAL_MONTHLY_INCOME': {0: 123.375260485318},
+ 'OTHER_INCOMES': {0: 0.28408418132750435},
+ 'QUANT_BANKING_ACCOUNTS': {0: -0.27650491818687867},
+ 'PERSONAL_ASSETS_VALUE': {0: 0.13422886682439855},
+ 'QUANT_CARS': {0: 2.1476343323409104},
+ 'FLAG_PROFESSIONAL_PHONE': {0: 1.641694685238739},
+ 'PROFESSION_CODE': {0: -1.8845897028550707},
+ 'OCCUPATION_TYPE': {0: 0.8344895932385018},
+ 'PRODUCT': {0: 0.1914533582934268},
+ 'AGE': {0: -0.4829082452779595},
+ 'RESIDENCIAL_ZIP_3': {0: -1.4689276009237735},
+ 'HAS_ANY_CARD': {0: -0.442212577389577}}
+    
+    test = pd.DataFrame(test)
+    # Load the pickled model
+    return os.getcwd(), os.getcwd()
+    with open('/src/trained_model.pkl', 'rb') as model_file:
+        loaded_model = joblib.load(model_file)
+    
+    # Example input data for prediction (replace this with your actual data)
 
+    # Make predictions using the loaded model
+    predictions = os.getcwd()#loaded_model.predict(test)#type(loaded_model)#
+    return os.getcwd(), os.getcwd()
+    proba = loaded_model.predict_proba(test)[0]
+    return proba, proba
+    predictions = loaded_model.predict(test)
+
+    # Print the predictions
+    print("Predictions:", predictions)
+    return proba, predictions
     
     
     names = pd.read_csv('/src/dataset/PAKDD2010_VariablesList.csv')

@@ -4,7 +4,7 @@ from uuid import uuid4
 
 import redis
 import settings
-from forms import MyForm
+
 
 # Connect to Redis and assign to variable `db``
 # Make use of settings.py module to get Redis settings like host, port, etc.
