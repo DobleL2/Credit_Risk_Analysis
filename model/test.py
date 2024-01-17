@@ -1,4 +1,4 @@
-import ml_service as ml
+import Credit_Risk_Analysis.model.ml_serviceL as ml
 import pandas as pd
 
 print("Prueba del modelo")

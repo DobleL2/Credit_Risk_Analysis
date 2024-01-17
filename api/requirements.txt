@@ -11,9 +11,3 @@ pytest==7.1.1
 
 scikit-learn==1.2.2
 lightgbm==4.1.0
-
-numpy
-boto3
-Pillow
-cloudpickle==3.0.0
-pycaret
