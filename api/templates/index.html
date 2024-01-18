@@ -172,8 +172,8 @@
                 <a class="btn btn-outline-primary btn-lg w-100" id="v-pills-tab2" data-toggle="pill" href="#v-pills-content2" role="button" aria-controls="v-pills-content2" aria-selected="false">Terms</a>
                 <a class="btn btn-outline-primary btn-lg w-100" id="v-pills-tab3" data-toggle="pill" href="#v-pills-content3" role="button" aria-controls="v-pills-content3" aria-selected="false">Form</a>
                 <a class="btn btn-outline-primary btn-lg w-100" id="v-pills-tab4" data-toggle="pill" href="#v-pills-content4" role="button" aria-controls="v-pills-content4" aria-selected="false">Make Your Prediction</a>
-                <a class="btn btn-outline-primary btn-lg w-100" id="v-pills-tab5" data-toggle="pill" href="#v-pills-content5" role="button" aria-controls="v-pills-content5" aria-selected="false">Support results</a>
-                <a class="btn btn-outline-primary btn-lg w-100" id="v-pills-tab6" data-toggle="pill" href="#v-pills-content6" role="button" aria-controls="v-pills-content6" aria-selected="false">Out Team</a>
+                <a class="btn btn-outline-primary btn-lg w-100" id="v-pills-tab5" data-toggle="pill" href="#v-pills-content5" role="button" aria-controls="v-pills-content5" aria-selected="false">Simulation</a>
+                <a class="btn btn-outline-primary btn-lg w-100" id="v-pills-tab6" data-toggle="pill" href="#v-pills-content6" role="button" aria-controls="v-pills-content6" aria-selected="false">Our Team</a>
             </div>
             <div class="tab-content mt-2"> <!-- Modificado el margen superior -->
                 <div class="tab-pane fade show active" id="v-pills-content1" role="tabpanel" aria-labelledby="v-pills-tab1">
@@ -454,19 +454,21 @@
                                 </ul>        
                             </div>
                                                 <!-- Lado izquierdo con el nuevo output de Score -->
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <h4>Score</h4>
-                                <div id="score-output"> {{ context.score }}</div>
+                                <div id="score-output" class="mb-4 p-3 text-center" style="background-color: #82fba6; border-radius: 5px; font-size: 18px; color: #133f6e;">
+                                    {{ context.score }}
+                                </div>
                                 <p>Prediction: {{ context.prediction }}</p>
                             </div>
                                                     <!-- Lado derecho con los campos existentes -->
                             <div class="col-md-4">
                                 <h4>Statistics</h4>
-                                <div class="table-box">
+                                <div class="table-box">                                    
                                     <!-- La tabla que mencionaste -->
                                     <div class="table">
                                         <div class="table-row">
-                                            <div class="table-cell">Level</div>
+                                            <div class="table-cell">Level:</div>
                                             <div class="table-cell" id="level-output">Category: {{ context.cat }}  </div>
                                         </div>
                                         <div class="table-row">
@@ -474,7 +476,7 @@
                                             <div class="table-cell" id="default-probability-output"> <!-- Aquí irá el output de la probabilidad de incumplimiento --> </div>
                                         </div>
                                         <div class="table-row">
-                                            <div class="table-cell">Loan Amount {{ context.loan }}</div>
+                                            <div class="table-cell">Loan Amount: {{ context.loan }}</div>
                                             <div class="table-cell" id="loan-amount-output"> <!-- Aquí irá el output del monto del préstamo --> </div>
                                         </div>
                                     </div>
@@ -482,19 +484,19 @@
                             </div>
                         </div>
                         {% else %}
-                        <p>Ingresar la data en el formulario correspondiente.</p>
-                        <div class="row">
+                        <p class="mt-4">Warning: Enter the data in the corresponding form.</p>
+                        <div class="row">                            
                             
                                                     <!-- Lado izquierdo con el nuevo output de Score -->
                         <div class="col-md-5">
                             <h4>Score</h4>
-                            <div id="score-output">0</div>
+                            <div id="score-output" class="mb-4 p-3 text-center" style="background-color: #82fba6; border-radius: 5px; font-size: 18px; color: #133f6e;">0</div>
                         </div>
                 
                         <!-- Lado derecho con los campos existentes -->
                         <div class="col-md-5">
                             <h4>Statistics</h4>
-                            <div class="table-box">
+                            <div class="table-box">                                
                                 <!-- La tabla que mencionaste -->
                                 <div class="table">
                                     <div class="table-row">
@@ -522,12 +524,12 @@
                         <h3>Simulation</h3>
                     </div>    
                     <div class="col-md-4">
-                        <h4>Simulation</h4>
-                        <div class="table-cell">Suponiendo un prestamo de 1,000 R</div>
-                        <div class="table-cell">LGD del 50% : </div>
-                        <div class="table-cell">risk-free rate (3%) </div>
+                        <h4>Simulation Details</h4>
+                        <div class="table-cell">Assuming a loan of 1,000 R</div>
+                        <div class="table-cell">LGD del 50%: </div>
+                        <div class="table-cell">risk-free rate (11.75%) </div>
                         {% if context %}
-                            <div class="table-cell">Expected_loss del cliente: {{  context.exp_loss }}</div>
+                            <div class="table-cell">Expected loss of the customer: {{  context.exp_loss }}</div>
                         <div class="table-cell">Risk premium: {{ context.premium }}</div>
                         <div class="table-cell">Exposure: {{ context.exposure }}</div>
                         <div class="table-cell">Percentage of the loss: {{ context.per_loss }}</div>
@@ -537,7 +539,7 @@
                 </div>
                 <div class="tab-pane fade" id="v-pills-content6" role="tabpanel" aria-labelledby="v-pills-tab6">
                     <div class="container text-center custom-content-header" style="color: #82fba6">
-                        <h3>Out Team</h3>
+                        <h3>Our Team</h3>
                     </div>    
                     <div class="container mt-5">
                         <div class="row">
