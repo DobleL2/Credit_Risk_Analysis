@@ -180,7 +180,7 @@ def process_form():
         print("Para un prestamo de 1,000 reales al cliente, suponiendo los siguientes datos: ")
         print("Monto del prestamo: 1000" )
         print("LGD, 50%") # LGD is the Loss Given Default, the proportion of the loan that won't be recovered after default. Let's assume it's 50%.
-        print("risk-free rate (3%)")
+        print("risk-free rate (11,75%)")
         print()
         print("Information: ","\n")
         total_loan,total_expected_loss,total_risk_premium,total_risk_exposure,loss_percentage, risk_exposure_percentage = exp_loss(score)               
@@ -189,10 +189,10 @@ def process_form():
                 
         context = {
             'prediction': prediction,
-            "score": score,
+            "score": score[1],
             "data": {key: value[0] for key,value in data.items()},
-            "category": cat,
-            "loan": total_loan,
+            "category": cat[1],
+            "loan": total_loan, 
             "exp_loss": total_expected_loss,
             "premium" : total_risk_premium,
             "exposure": total_risk_exposure,

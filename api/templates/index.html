@@ -460,6 +460,7 @@
                                     {{ context.score }}
                                 </div>
                                 <p>Prediction: {{ context.prediction }}</p>
+                                <p>Client Category: {{ context.category }}</p>
                             </div>
                                                     <!-- Lado derecho con los campos existentes -->
                             <div class="col-md-4">
@@ -469,7 +470,7 @@
                                     <div class="table">
                                         <div class="table-row">
                                             <div class="table-cell">Level:</div>
-                                            <div class="table-cell" id="level-output">Category: {{ context.cat }}  </div>
+                                            <div class="table-cell" id="level-output">Clien Category: {{ context.category }}  </div>
                                         </div>
                                         <div class="table-row">
                                             <div class="table-cell">Default Probability: {{ context.score }}</div>
@@ -494,27 +495,7 @@
                         </div>
                 
                         <!-- Lado derecho con los campos existentes -->
-                        <div class="col-md-5">
-                            <h4>Statistics</h4>
-                            <div class="table-box">                                
-                                <!-- La tabla que mencionaste -->
-                                <div class="table">
-                                    <div class="table-row">
-                                        <div class="table-cell">Level</div>
-                                        <div class="table-cell" id="level-output"> 0 </div>
-                                    </div>
-                                    <div class="table-row">
-                                        <div class="table-cell">Default Probability</div>
-                                        <div class="table-cell" id="default-probability-output"> <!-- Aquí irá el output de la probabilidad de incumplimiento --> </div>
-                                    </div>
-                                    <div class="table-row">
-                                        <div class="table-cell">Loan Amount:</div>
-                                        <div class="table-cell" id="loan-amount-output"> <!-- Aquí irá el output del monto del préstamo --> </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        
                         {% endif %}
 
 
