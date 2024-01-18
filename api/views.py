@@ -111,12 +111,99 @@ def process_form():
         
         #prediction, score = model_predict_from_form(data)
         
+        # Categoría
+        #--------------#
+        # Etiqueta de categoría
+
+        a1, a2, a3 = 0.3, 0.5, 0.7
+
+        # Categorize customers based on their predicted default probabilities
+        def categorize_clients(probabilities):
+            categories = []
+            for prob in probabilities:
+                if prob > a3:
+                    categories.append("Bad")
+                elif a2 < prob <= a3:
+                    categories.append("Regular")
+                else:
+                    categories.append("Good")
+            return categories
+
+        cat = categorize_clients(score)       
+        #--------------#
+        # Perdida esperada del cliente (función)
+        #Expected Loss = Exposure at Default (EAD) * Probability of Default (PD) * Loss Given Default (LGD)
+
+        def exp_loss(positive_class_proba):
+
+            #Datos de un prestamo
+            loan_amount = 1000 #USD/Reales
+            loss_given_default = 0.5 # LGD is the Loss Given Default, the proportion of the loan that won't be recovered after default. Let's assume it's 50%.
+            risk_free_rate = 0.1175  # Interest rate (3%)
+            discounted_rate = 1 / (1 + risk_free_rate)
+            random_clients_df = pd.DataFrame()
+            # Associate probabilities with client data
+            random_clients_df['probability_of_default'] = positive_class_proba
+
+            # Calculate Expected Loss for each client based on their probability of default
+            random_clients_df['expected_loss'] = loan_amount * (1-random_clients_df['probability_of_default']) * loss_given_default * discounted_rate
+
+            # Calculate Risk Premium based on the model's prediction
+            random_clients_df['risk_premium'] = random_clients_df['expected_loss']* discounted_rate
+
+            # Calculate Total Risk Exposure
+            random_clients_df['total_risk_exposure'] = random_clients_df['expected_loss'] + random_clients_df['risk_premium']
+
+            # Display or use random_clients_df for further analysis
+            #print(random_clients_df[['probability_of_default', 'expected_loss', 'risk_premium', 'total_risk_exposure']].to_string(index=False))
+            print()
+
+            # Aggregate values for all clients
+            total_expected_loss = round(random_clients_df['expected_loss'].sum(), 2)
+            total_risk_premium = round(random_clients_df['risk_premium'].sum(), 2)
+            total_risk_exposure = round(random_clients_df['total_risk_exposure'].sum(), 2)
+            total_loan = round(loan_amount * len(random_clients_df), 2)
+            total_loans = len(random_clients_df) * loan_amount
+            loss_percentage = round((total_expected_loss / total_loans) * 100, 2)
+            risk_exposure_percentage = round((total_risk_exposure / total_loans) * 100, 2)
+            
+            print("Total Loan: ", total_loan)
+            print("Total Expected Loss:", total_expected_loss)
+            print("Total Risk Premium:", total_risk_premium)
+            print("Total Risk Exposure:", total_risk_exposure)
+            print("Percentage of Loss of Total Loans: {:.2f}%".format(loss_percentage))
+            print("Percentage of Loss of Total Loans: {:.2f}%".format(risk_exposure_percentage))
+            print()
+
+            return total_loan,total_expected_loss,total_risk_premium,total_risk_exposure,loss_percentage, risk_exposure_percentage
+        
+        print("Para un prestamo de 1,000 reales al cliente, suponiendo los siguientes datos: ")
+        print("Monto del prestamo: 1000" )
+        print("LGD, 50%") # LGD is the Loss Given Default, the proportion of the loan that won't be recovered after default. Let's assume it's 50%.
+        print("risk-free rate (3%)")
+        print()
+        print("Information: ","\n")
+        total_loan,total_expected_loss,total_risk_premium,total_risk_exposure,loss_percentage, risk_exposure_percentage = exp_loss(score)               
+        
+        #--------------#
+                
         context = {
             'prediction': prediction,
             "score": score,
-            'data': {key: value[0] for key,value in data.items()},
+            "data": {key: value[0] for key,value in data.items()},
+            "category": cat,
+            "loan": total_loan,
+            "exp_loss": total_expected_loss,
+            "premium" : total_risk_premium,
+            "exposure": total_risk_exposure,
+            "per_loss": loss_percentage,
+            "per_risk": risk_exposure_percentage,
+            #"comparison_df": comparison_df.to_dict(),  # Convert DataFrame to dictionary
+            #"ahorro_potencial": ahorro_potencial,
+            #"porcentaje_ahorro": (ahorro_potencial / (1000 * len(comparison_df))) * 100,
         }
         
+          
         return render_template('index.html',target_tab_id=4,context=context)
     
     if request.method == 'GET':

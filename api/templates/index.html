@@ -467,14 +467,14 @@
                                     <div class="table">
                                         <div class="table-row">
                                             <div class="table-cell">Level</div>
-                                            <div class="table-cell" id="level-output"> 0 </div>
+                                            <div class="table-cell" id="level-output">Category: {{ context.cat }}  </div>
                                         </div>
                                         <div class="table-row">
-                                            <div class="table-cell">Default Probability</div>
+                                            <div class="table-cell">Default Probability: {{ context.score }}</div>
                                             <div class="table-cell" id="default-probability-output"> <!-- Aquí irá el output de la probabilidad de incumplimiento --> </div>
                                         </div>
                                         <div class="table-row">
-                                            <div class="table-cell">Loan Amount</div>
+                                            <div class="table-cell">Loan Amount {{ context.loan }}</div>
                                             <div class="table-cell" id="loan-amount-output"> <!-- Aquí irá el output del monto del préstamo --> </div>
                                         </div>
                                     </div>
@@ -506,7 +506,7 @@
                                         <div class="table-cell" id="default-probability-output"> <!-- Aquí irá el output de la probabilidad de incumplimiento --> </div>
                                     </div>
                                     <div class="table-row">
-                                        <div class="table-cell">Loan Amount</div>
+                                        <div class="table-cell">Loan Amount:</div>
                                         <div class="table-cell" id="loan-amount-output"> <!-- Aquí irá el output del monto del préstamo --> </div>
                                     </div>
                                 </div>
@@ -519,9 +519,21 @@
                 </div>
                 <div class="tab-pane fade" id="v-pills-content5" role="tabpanel" aria-labelledby="v-pills-tab5">
                     <div class="container text-center custom-content-header" style="color: #82fba6">
-                        <h3>Contenido - Support Results</h3>
+                        <h3>Simulation</h3>
                     </div>    
-                    <p>Este es el contenido de la quinta pestaña.</p>
+                    <div class="col-md-4">
+                        <h4>Simulation</h4>
+                        <div class="table-cell">Suponiendo un prestamo de 1,000 R</div>
+                        <div class="table-cell">LGD del 50% : </div>
+                        <div class="table-cell">risk-free rate (3%) </div>
+                        {% if context %}
+                            <div class="table-cell">Expected_loss del cliente: {{  context.exp_loss }}</div>
+                        <div class="table-cell">Risk premium: {{ context.premium }}</div>
+                        <div class="table-cell">Exposure: {{ context.exposure }}</div>
+                        <div class="table-cell">Percentage of the loss: {{ context.per_loss }}</div>
+                        <div class="table-cell">Percentage of total exposure: {{ context.per_risk }}</div>
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="v-pills-content6" role="tabpanel" aria-labelledby="v-pills-tab6">
                     <div class="container text-center custom-content-header" style="color: #82fba6">
